@@ -21,7 +21,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fcfec6e-ed64-4c99-ae17-7497225fa4e1" name="Changes" comment="" />
+    <list default="true" id="0fcfec6e-ed64-4c99-ae17-7497225fa4e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/snapcraft/EditorView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/snapcraft/EditorView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/snapcraft/util/ZoomInAndOutListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/snapcraft/util/ZoomInAndOutListener.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,6 +102,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "android-custom-viewC:/Users/Xelpmoc/Desktop/SnapCraft/app/src/main/java/com/app/snapcraft/util/ZoomInAndOutListener.kt_SELECTED": "ZoomInAndOutListener",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",

@@ -1,16 +1,14 @@
+// write a same class where listener will set to a view and will pass a view to class and that mainView will be rotate clock wise and anti clock wise based on move event
 package com.app.snapcraft.util
 
 import android.graphics.Matrix
-import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import kotlin.math.sqrt
 
-class ZoomInAndOutListener(private val imageView: View, private val frame : ConstraintLayout) : View.OnTouchListener {
+
+class ZoomInAndOutListener(private val mainView: View) :
+    View.OnTouchListener {
 
 
     private var prevY: Float = 0f
@@ -31,49 +29,61 @@ class ZoomInAndOutListener(private val imageView: View, private val frame : Cons
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         var scaleFactor = 1f
-         when (event.action and MotionEvent.ACTION_MASK) {
+        when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
                 Log.i("--ZOOM_LISTENER--", "MotionEvent -> ACTION_DOWN")
                 // Store initial touch coordinates
 
             }
- // Inside your MotionEvent.ACTION_MOVE section
-              MotionEvent.ACTION_MOVE -> {
-                 Log.i("--ZOOM_LISTENER--", "MotionEvent -> ACTION_MOVE")
 
-                 // Calculate the differences between current and previous coordinates
-                 val deltaX = event.x - prevX
-                 val deltaY = event.y - prevY
+            MotionEvent.ACTION_MOVE -> {
+                Log.i("--ZOOM_LISTENER--", "MotionEvent -> ACTION_MOVE")
 
-                 prevX = event.x
-                 prevY = event.y
+                // Calculate the differences between current and previous coordinates
+                val deltaX = event.x - prevX
+                val deltaY = event.y - prevY
 
-                 val diagonal = Math.sqrt((deltaX * deltaX + deltaY * deltaY).toDouble()).toFloat()
+                prevX = event.x
+                prevY = event.y
 
-                 val sensitivity = 1000f // Adjust this value based on your requirement
-                 val scaleFactor = 1 + diagonal / sensitivity
+                val diagonal = Math.sqrt((deltaX * deltaX + deltaY * deltaY).toDouble()).toFloat()
 
-                 // Apply scaling
-                 if (deltaX < 0 && deltaY < 0) {
-                     Log.i("--ZOOM_LISTENER--", "Direction X: Moving left $deltaX, Direction Y: Moving up $deltaY")
-                     imageView.scaleX /= scaleFactor
-                     imageView.scaleY /= scaleFactor
-                     imageView.invalidateOutline()
-                     imageView.invalidate()
-                     imageView.requestLayout()
-                  }
+                val sensitivity = 1000f // Adjust this value based on your requirement
+                val scaleFactor = 1 + diagonal / sensitivity
 
-                 if (deltaX > 0 && deltaY > 0) {
-                     Log.i("--ZOOM_LISTENER--", "Direction X: Moving right $deltaX, Direction Y: Moving down $deltaY")
-                     imageView.scaleX *= scaleFactor
-                     imageView.scaleY *= scaleFactor
-                     imageView.invalidateOutline()
-                     imageView.invalidate()
-                     imageView.requestLayout()
-                  }
+                // Apply scaling
+                if (deltaX < 0 && deltaY < 0) {
+                    Log.i(
+                        "--ZOOM_LISTENER--",
+                        "Direction X: Moving left $deltaX, Direction Y: Moving up $deltaY"
+                    )
+                    if (!scaleFactor.isNaN() && scaleFactor != 0f){
+                         try {
+                             mainView.scaleX /= scaleFactor
+                             mainView.scaleY /= scaleFactor
+                         }catch (e : Exception){
+                             e.message
+                         }
+                    }
+                }
+
+                if (deltaX > 0 && deltaY > 0) {
+                    Log.i(
+                        "--ZOOM_LISTENER--",
+                        "Direction X: Moving right $deltaX, Direction Y: Moving down $deltaY"
+                    )
+                    if (!scaleFactor.isNaN() && scaleFactor != 0f){
+                        try {
+                            mainView.scaleX *= scaleFactor
+                            mainView.scaleY *= scaleFactor
+                        }catch (e : Exception){
+                            e.message
+                        }
+                     }
+                }
 
 
-             }
+            }
 
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {

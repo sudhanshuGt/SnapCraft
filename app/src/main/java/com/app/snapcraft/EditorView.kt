@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.app.snapcraft.databinding.EditFrameViewBinding
 import com.app.snapcraft.databinding.EditorViewBinding
 import com.app.snapcraft.util.ImageTouchListener
+import com.app.snapcraft.util.RotateListener
 import com.app.snapcraft.util.ZoomInAndOutListener
 import java.io.File
 import java.io.FileOutputStream
@@ -69,24 +70,32 @@ class EditorView : AppCompatActivity() {
         image.setImageURI(uri)
 
         bindingFrame.frameView.setOnClickListener {
-            handleTouchClick(bindingFrame.frameView)
+            handleImageDrag(bindingFrame.frameView)
+        }
+
+        bindingFrame.frameRmBtn.setOnClickListener {
+            handleRotationBtn(bindingFrame.frameRmBtn, bindingFrame.frameView)
         }
 
         bindingFrame.frameScBtn.setOnClickListener {
             Log.i("--EDITOR_VIEW--", "frameBtn clicked")
-            handleTouchClickBtn(bindingFrame.frameScBtn, bindingFrame.frameView, bindingFrame.frameView)
+            handleScaleBtn(bindingFrame.frameScBtn, bindingFrame.frameView)
         }
 
         binding.layoutContainer.addView(bindingFrame.root, 500, 500)
     }
 
-    private fun handleTouchClickBtn(view: View, image: View, frameView : ConstraintLayout) {
-          view.setOnTouchListener(ZoomInAndOutListener(image, frameView))
-         Log.i("--EDITOR_VIEW--", "touch listener set")
+    @SuppressLint("ClickableViewAccessibility")
+    private fun handleRotationBtn(frameRmBtn: ImageView, frameView: ConstraintLayout) {
+        frameRmBtn.setOnTouchListener(RotateListener(frameView))
     }
 
+    private fun handleScaleBtn(view: View, mainView : View) {
+          view.setOnTouchListener(ZoomInAndOutListener(mainView))
+     }
+
     @SuppressLint("ClickableViewAccessibility")
-    private fun handleTouchClick(view : View) {
+    private fun handleImageDrag(view : View) {
         removeAllTouchListeners(binding.layoutContainer)
 
         val imageTouchListener = ImageTouchListener()
