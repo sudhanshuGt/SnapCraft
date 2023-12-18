@@ -30,6 +30,8 @@ class RotateListener(private val mainView: View) : View.OnTouchListener {
                 val rotation = mainView.rotation - Math.toDegrees(angle.toDouble()).toFloat()
 
                 mainView.rotation = rotation
+
+
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {

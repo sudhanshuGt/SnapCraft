@@ -1,10 +1,12 @@
 // write a same class where listener will set to a view and will pass a view to class and that mainView will be rotate clock wise and anti clock wise based on move event
 package com.app.snapcraft.util
 
+import android.annotation.SuppressLint
 import android.graphics.Matrix
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.atan2
 
 
 class ZoomInAndOutListener(private val mainView: View) :
@@ -27,6 +29,8 @@ class ZoomInAndOutListener(private val mainView: View) :
     private var lastZoomTime = 0L
     private val debounceInterval = 100 // Adjust this interval as needed
 
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         var scaleFactor = 1f
         when (event.action and MotionEvent.ACTION_MASK) {
@@ -36,7 +40,8 @@ class ZoomInAndOutListener(private val mainView: View) :
 
             }
 
-            MotionEvent.ACTION_MOVE -> {
+
+             MotionEvent.ACTION_MOVE -> {
                 Log.i("--ZOOM_LISTENER--", "MotionEvent -> ACTION_MOVE")
 
                 // Calculate the differences between current and previous coordinates
@@ -57,13 +62,13 @@ class ZoomInAndOutListener(private val mainView: View) :
                         "--ZOOM_LISTENER--",
                         "Direction X: Moving left $deltaX, Direction Y: Moving up $deltaY"
                     )
-                    if (!scaleFactor.isNaN() && scaleFactor != 0f){
-                         try {
-                             mainView.scaleX /= scaleFactor
-                             mainView.scaleY /= scaleFactor
-                         }catch (e : Exception){
-                             e.message
-                         }
+                    if (!scaleFactor.isNaN() && scaleFactor != 0f) {
+                        try {
+                            mainView.scaleX /= scaleFactor
+                            mainView.scaleY /= scaleFactor
+                        } catch (e: Exception) {
+                            e.message
+                        }
                     }
                 }
 
@@ -72,17 +77,22 @@ class ZoomInAndOutListener(private val mainView: View) :
                         "--ZOOM_LISTENER--",
                         "Direction X: Moving right $deltaX, Direction Y: Moving down $deltaY"
                     )
-                    if (!scaleFactor.isNaN() && scaleFactor != 0f){
+                    if (!scaleFactor.isNaN() && scaleFactor != 0f) {
                         try {
                             mainView.scaleX *= scaleFactor
                             mainView.scaleY *= scaleFactor
-                        }catch (e : Exception){
+                        } catch (e: Exception) {
                             e.message
                         }
-                     }
+                    }
                 }
 
+                // Rotation based on move events
+                val crossProduct = deltaX * (event.y - 0) - (event.x - 0) * deltaY
+                val rotation = mainView.rotation + if (crossProduct > 0) 5f else -5f
 
+                // Apply rotation
+                mainView.rotation = rotation
             }
 
 

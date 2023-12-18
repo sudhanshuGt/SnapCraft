@@ -73,26 +73,17 @@ class EditorView : AppCompatActivity() {
             handleImageDrag(bindingFrame.frameView)
         }
 
-        bindingFrame.frameRmBtn.setOnClickListener {
-            handleRotationBtn(bindingFrame.frameRmBtn, bindingFrame.frameView)
-        }
 
-        bindingFrame.frameScBtn.setOnClickListener {
-            Log.i("--EDITOR_VIEW--", "frameBtn clicked")
-            handleScaleBtn(bindingFrame.frameScBtn, bindingFrame.frameView)
-        }
+
+        bindingFrame.frameScBtn.setOnTouchListener(ZoomInAndOutListener(bindingFrame.frameView))
+
 
         binding.layoutContainer.addView(bindingFrame.root, 500, 500)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun handleRotationBtn(frameRmBtn: ImageView, frameView: ConstraintLayout) {
-        frameRmBtn.setOnTouchListener(RotateListener(frameView))
-    }
 
-    private fun handleScaleBtn(view: View, mainView : View) {
-          view.setOnTouchListener(ZoomInAndOutListener(mainView))
-     }
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun handleImageDrag(view : View) {

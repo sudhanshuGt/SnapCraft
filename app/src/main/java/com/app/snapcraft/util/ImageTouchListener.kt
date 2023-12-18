@@ -64,6 +64,7 @@ class ImageTouchListener : View.OnTouchListener {
                         val newDist = calculateDistance(event)
                         if (newDist > 100f) {
                             val scale = newDist / startDistance
+
                             // Limit scaling within MIN_ZOOM and MAX_ZOOM
                             val newScale = scale.coerceIn(MIN_ZOOM, MAX_ZOOM)
 
