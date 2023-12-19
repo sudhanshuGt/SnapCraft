@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import com.app.snapcraft.EditorView
 
 class ImageTouchListener : View.OnTouchListener {
 
@@ -42,11 +43,13 @@ class ImageTouchListener : View.OnTouchListener {
                 lastTouchY = event.rawY - view.translationY
                 savedMatrix.set(matrix)
             }
+
             MotionEvent.ACTION_POINTER_DOWN -> {
                 mode = ZOOM
                 startDistance = calculateDistance(event)
                 savedMatrix.set(matrix)
             }
+
             MotionEvent.ACTION_MOVE -> {
                 if (mode == DRAG) {
                     val newX = event.rawX - lastTouchX
@@ -57,48 +60,53 @@ class ImageTouchListener : View.OnTouchListener {
                 } else
 
                     if (mode == ZOOM) {
-                    val currentTime = SystemClock.uptimeMillis()
-                    if (currentTime - lastZoomTime > debounceInterval) {
-                        lastZoomTime = currentTime
+                        val currentTime = SystemClock.uptimeMillis()
+                        if (currentTime - lastZoomTime > debounceInterval) {
+                            lastZoomTime = currentTime
 
-                        val newDist = calculateDistance(event)
-                        if (newDist > 100f) {
-                            val scale = newDist / startDistance
+                            val newDist = calculateDistance(event)
+                            if (newDist > 100f) {
+                                val scale = newDist / startDistance
 
-                            // Limit scaling within MIN_ZOOM and MAX_ZOOM
-                            val newScale = scale.coerceIn(MIN_ZOOM, MAX_ZOOM)
+                                // Limit scaling within MIN_ZOOM and MAX_ZOOM
+                                val newScale = scale.coerceIn(MIN_ZOOM, MAX_ZOOM)
 
-                            matrix.set(savedMatrix)
-                            matrix.postScale(newScale, newScale, view.width / 2f, view.height / 2f)
+                                matrix.set(savedMatrix)
+                                matrix.postScale(
+                                    newScale,
+                                    newScale,
+                                    view.width / 2f,
+                                    view.height / 2f
+                                )
 
-                            // Get the scale from the matrix values
-                            val values = FloatArray(9)
-                            matrix.getValues(values)
-                            val currentScaleX = values[Matrix.MSCALE_X]
-                            val currentScaleY = values[Matrix.MSCALE_Y]
+                                // Get the scale from the matrix values
+                                val values = FloatArray(9)
+                                matrix.getValues(values)
+                                val currentScaleX = values[Matrix.MSCALE_X]
+                                val currentScaleY = values[Matrix.MSCALE_Y]
 
-                            // Set transformation properties for any type of view
-                            view.translationX = values[Matrix.MTRANS_X]
-                            view.translationY = values[Matrix.MTRANS_Y]
-                            view.scaleX = currentScaleX
-                            view.scaleY = currentScaleY
+                                // Set transformation properties for any type of view
+                                view.translationX = values[Matrix.MTRANS_X]
+                                view.translationY = values[Matrix.MTRANS_Y]
+                                view.scaleX = currentScaleX
+                                view.scaleY = currentScaleY
 
-                            // Increase or decrease the size of the view
-                            val scaleMultiplier = newScale / currentScaleX
-                            view.animate()
-                                .scaleX(currentScaleX * scaleMultiplier)
-                                .scaleY(currentScaleY * scaleMultiplier)
-                                .setDuration(0)
-                                .start()
+                                // Increase or decrease the size of the view
+                                val scaleMultiplier = newScale / currentScaleX
+                                view.animate()
+                                    .scaleX(currentScaleX * scaleMultiplier)
+                                    .scaleY(currentScaleY * scaleMultiplier)
+                                    .setDuration(0)
+                                    .start()
+                            }
                         }
                     }
-                }
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
                 mode = NONE
             }
         }
-
         return true
     }
 

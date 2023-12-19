@@ -87,12 +87,6 @@ class ZoomInAndOutListener(private val mainView: View) :
                     }
                 }
 
-                // Rotation based on move events
-                val crossProduct = deltaX * (event.y - 0) - (event.x - 0) * deltaY
-                val rotation = mainView.rotation + if (crossProduct > 0) 5f else -5f
-
-                // Apply rotation
-                mainView.rotation = rotation
             }
 
 
