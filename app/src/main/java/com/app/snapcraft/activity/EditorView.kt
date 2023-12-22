@@ -1,4 +1,4 @@
-package com.app.snapcraft
+package com.app.snapcraft.activity
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -56,7 +56,7 @@ class EditorView : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun listener() {
         binding.btnSelectImage.setOnClickListener {
-            openGallery()
+           openGallery()
         }
         binding.btnSave.setOnClickListener {
             saveBitmapToGallery(

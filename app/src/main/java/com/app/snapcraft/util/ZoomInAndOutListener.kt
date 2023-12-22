@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.atan2
+import kotlin.math.sqrt
 
 
 class ZoomInAndOutListener(private val mainView: View) :
@@ -51,7 +52,7 @@ class ZoomInAndOutListener(private val mainView: View) :
                 prevX = event.x
                 prevY = event.y
 
-                val diagonal = Math.sqrt((deltaX * deltaX + deltaY * deltaY).toDouble()).toFloat()
+                val diagonal = sqrt((deltaX * deltaX + deltaY * deltaY).toDouble()).toFloat()
 
                 val sensitivity = 1000f // Adjust this value based on your requirement
                 val scaleFactor = 1 + diagonal / sensitivity

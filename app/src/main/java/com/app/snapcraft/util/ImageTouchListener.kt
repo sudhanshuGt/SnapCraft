@@ -2,17 +2,9 @@ package com.app.snapcraft.util
 
 import android.content.res.Resources
 import android.graphics.Matrix
-import android.os.Handler
 import android.os.SystemClock
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import androidx.core.view.isVisible
-import com.app.snapcraft.EditorView
 
 class ImageTouchListener : View.OnTouchListener {
 
